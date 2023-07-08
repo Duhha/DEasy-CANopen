@@ -38,7 +38,7 @@ static void Internal_Receive(uint16_t *COB_ID, uint8_t data[], bool *is_new_mess
 
 	*COB_ID = internal_COB_ID[buffer_index_receive];
 	for (uint8_t i = 0; i < 8; i++) {
-		data[i] = 0; internal_data[buffer_index_receive * 8 + i];
+		data[i] = internal_data[buffer_index_receive * 8 + i];
 	}
 
 	*is_new_message = internal_new_message[buffer_index_receive];
