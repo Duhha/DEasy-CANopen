@@ -17,7 +17,7 @@
 #endif
 
 #if PROCESSOR_CHOICE == HARDWARE_INTERNAL
-#warring "Inernal Hardware is used"
+/// @toto #warring "Inernal Hardware is used"
 #endif
 
 /* What type of bit length is your CAN message */
