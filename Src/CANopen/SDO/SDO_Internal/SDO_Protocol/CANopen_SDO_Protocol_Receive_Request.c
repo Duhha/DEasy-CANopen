@@ -15,7 +15,7 @@ void CANopen_SDO_Protocol_Receive_Request_Initiate(CANopen *canopen, uint8_t cs_
 	uint8_t n = (data[0] >> 2) & 0x3; 	/* Size of d, if e = 0 and s = 1 */
 	uint8_t e = (data[0] >> 1) & 0x1; 	/* Is expedited */
 	uint8_t s = data[0] & 0x1;			/* Is size included */
-	uint8_t index = (data[2] << 8) | data[1];
+	uint16_t index = (data[2] << 8) | data[1];
 	uint8_t sub_index = data[3];
 	uint32_t d = (data[7] << 24) | (data[6] << 16) | (data[5] << 8) | data[4];	/* Can be value or byte size */
 
