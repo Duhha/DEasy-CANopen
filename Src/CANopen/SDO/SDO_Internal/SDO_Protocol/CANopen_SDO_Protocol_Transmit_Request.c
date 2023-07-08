@@ -15,8 +15,8 @@ void CANopen_SDO_Protocol_Transmit_Request_Initiate(CANopen *canopen, uint8_t cs
 
 	/* Default values */
 	uint8_t data[8] = {0};
-	data[1] = index;											/* LSB */
-	data[2] = index >> 8;										/* MSB */
+	data[1] = ((uint8_t*)&index)[0];    /* LSB */
+	data[2] = ((uint8_t*)&index)[1];	/* MSB */
 	data[3] = sub_index;
 
 	/* For the download request */

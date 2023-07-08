@@ -199,31 +199,31 @@ OD_STATUS CANopen_OD_Bank(CANopen *canopen, uint16_t index, uint8_t sub_index, b
 	}else if(index == OD_INDEX_IDENTITY_OBJECT && sub_index == 0x0){
 		*byte_size = sizeof(communication->identity_object_highest_supported_sub_index);
 		*data_type = sizeof(communication->identity_object_highest_supported_sub_index);
-		byte_pointer = (uint8_t*) communication->identity_object_highest_supported_sub_index;
+		byte_pointer = (uint8_t*) &communication->identity_object_highest_supported_sub_index;
 		*access = OD_ACCESS_READ;
 		return read_or_write(value, &communication->identity_object_highest_supported_sub_index, set, *access, *data_type);
 	}else if(index == OD_INDEX_IDENTITY_OBJECT && sub_index == 0x1){
 		*byte_size = sizeof(communication->vendor_ID);
 		*data_type = sizeof(communication->vendor_ID);
-		byte_pointer = (uint8_t*) communication->vendor_ID;
+		byte_pointer = (uint8_t*) &communication->vendor_ID;
 		*access = OD_ACCESS_READ;
 		return read_or_write(value, &communication->vendor_ID, set, *access, *data_type);
 	}else if(index == OD_INDEX_IDENTITY_OBJECT && sub_index == 0x2){
 		*byte_size = sizeof(communication->product_code);
 		*data_type = sizeof(communication->product_code);
-		byte_pointer = (uint8_t*) communication->product_code;
+		byte_pointer = (uint8_t*) &communication->product_code;
 		*access = OD_ACCESS_READ;
 		return read_or_write(value, &communication->product_code, set, *access, *data_type);
 	}else if(index == OD_INDEX_IDENTITY_OBJECT && sub_index == 0x3){
 		*byte_size = sizeof(communication->revision_number);
 		*data_type = sizeof(communication->revision_number);
-		byte_pointer = (uint8_t*) communication->revision_number;
+		byte_pointer = (uint8_t*) &communication->revision_number;
 		*access = OD_ACCESS_READ;
 		return read_or_write(value, &communication->revision_number, set, *access, *data_type);
 	}else if(index == OD_INDEX_IDENTITY_OBJECT && sub_index == 0x4){
 		*byte_size = sizeof(communication->serial_number);
 		*data_type = sizeof(communication->serial_number);
-		byte_pointer = (uint8_t*) communication->serial_number;
+		byte_pointer = (uint8_t*) &communication->serial_number;
 		*access = OD_ACCESS_READ;
 		return read_or_write(value, &communication->serial_number, set, *access, *data_type);
 	}else if(index == OD_INDEX_SYNCHRONOUS_COUNTER_OVERFLOW_VALUE && sub_index == 0){
@@ -255,10 +255,8 @@ OD_STATUS CANopen_OD_Bank(CANopen *canopen, uint16_t index, uint8_t sub_index, b
 }
 
 static OD_STATUS read_or_write(uint32_t *value, void *struct_value, bool set, OD_ACCESS access, OD_DATA_TYPE data_type){
-	switch(set){
-	case true:
-		switch(access | OD_ACCESS_WRITE){
-		case true:
+	if(set){
+		if(access | OD_ACCESS_WRITE){
 			switch(data_type){
 			case OD_DATA_TYPE_U8:
 				*((uint8_t*) struct_value) = *value;
@@ -273,13 +271,11 @@ static OD_STATUS read_or_write(uint32_t *value, void *struct_value, bool set, OD
 				return OD_STATUS_WRONG_DATA_TYPE;
 			}
 			return OD_STATUS_OK;
-		default:
+		}else{
 			return OD_STATUS_NOT_PERMITTED;
 		}
-		break;
-	case false:
-		switch(access | OD_ACCESS_READ){
-		case true:
+	}else{
+		if(access | OD_ACCESS_READ){
 			switch(data_type){
 			case OD_DATA_TYPE_U8:
 				*value = *((uint8_t*) struct_value);
@@ -294,7 +290,7 @@ static OD_STATUS read_or_write(uint32_t *value, void *struct_value, bool set, OD
 				return OD_STATUS_WRONG_DATA_TYPE;
 			}
 			return OD_STATUS_OK;
-		default:
+		}else{
 			return OD_STATUS_NOT_PERMITTED;
 		}
 	}
