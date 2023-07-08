@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 /* Include Easy CANopen */
-#include "Easy_CANopen/Easy_CANopen.h"
+#include "Src/Easy_CANopen/Easy_CANopen.h"
 
 int main() {
 	/* Declare our structures  */

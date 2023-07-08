@@ -9,17 +9,20 @@
 #define HARDWARE_HARDWARE_H_
 
 /* Select your processor choice here */
-#define	INTERNAL 0
-#define	STM32 1
-#define	ARDUINO 2
-#define	PIC 3
-#define	AVR 4
-#define	QT_USB 5
-#define PROCESSOR_CHOICE INTERNAL
+#define	HARDWARE_INTERNAL (0U) ///< внутренняя реализация платформозависимых функций (для тестирования в отрыве от железа)
+#define	HARDWARE_EXTERNAL (1U) ///< внешняя реализация платформозавимых функций
+
+#ifndef PROCESSOR_CHOICE
+#define PROCESSOR_CHOICE HARDWARE_INTERNAL
+#endif
+
+#if PROCESSOR_CHOICE == HARDWARE_INTERNAL
+#warring "Inernal Hardware is used"
+#endif
 
 /* What type of bit length is your CAN message */
-#define STANDARD 0
-#define EXTENDED 1
+#define STANDARD (0U)
+#define EXTENDED (1U)
 #define CAN_ID_BITS_LENGTH STANDARD
 
 /* Save files */
